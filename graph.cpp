@@ -120,7 +120,7 @@ void Graph::feedGraph(){
     cout << "\tVertice " << i+1 <<" Identificador (tag):\t";
     cin >> tags[i] ;
     cout << "Vizinhos do vertice " << i+1 << ":" << endl;
-    unsigned short int thisNeighbor = 0;
+    int thisNeighbor = 0;
     long double thisNeighborCost = 0;
     while(thisNeighbor != -1){
       cout << "Digite o indice numérico do vizinho ou '-1' para terminar:\t"<< endl;
@@ -151,14 +151,14 @@ void Graph::estimateDistance( const unsigned short int& source, const unsigned s
 
 bool Graph::thereIsOpenedVertice(){
   for(int i = 0; i < size; ++i){
-    if (status[i]) return true;    
+    if (!status[i]) return true;    
   }
   return false;
 }
 
 unsigned short int Graph::nextOpenedVertice(){
   for(int i = 0; i < size; ++i){
-    if(status[i]) return i;
+    if(!status[i]) return i;
   }
   return -1;
 }
@@ -167,17 +167,18 @@ unsigned short int Graph::smallestEstimate(){
   if(nextOpenedVertice() == -1) return -1;  
   int smaller = nextOpenedVertice(); 
   for(int i = smaller+1; i < size; ++i){
-    if (status[i] && estimates[smaller] > estimates[i]) smaller = i;
+    if (!status[i] && estimates[smaller] > estimates[i]) smaller = i;
   }
   return smaller;
 }
 
 void Graph::dijikstra(const unsigned int& source){
-  while(thereIsOpenedVertice()){
-    estimates[source] = 0;
+  estimates[source] = 0;
+  while(thereIsOpenedVertice()){    
     int thisVertice = smallestEstimate();
+    setStatus(thisVertice);
     for(int neighbor = 0; neighbor < size; ++neighbor){
-     if(getEdgeCost(thisVertice, neighbor) >= 0)
+     if(getEdgeCost(thisVertice, neighbor) > 0)
        estimateDistance(thisVertice, neighbor);
     }
   }
@@ -186,13 +187,14 @@ void Graph::dijikstra(const unsigned int& source){
 vector< vector<int> > Graph::findCloserWayBetween(const unsigned short int& source, const unsigned short int& destiny){
   unsigned short int thisVertice = destiny;
   unsigned short int i = 0;
-  vector< vector<int> > way(size, vector<int>(2));
+  vector<int> nodes(2, 0);
+  vector< vector<int> > way(size, nodes);
   dijikstra(source);
 //Percorre o caminho do destino até a fonte através 
 //do antecessor do vértice atual
   while(getPredecessor(thisVertice) != source){
     way[i][0] = thisVertice;
-    way[i][2] = getPredecessor(thisVertice);
+    way[i][1] = getPredecessor(thisVertice);
     thisVertice = getPredecessor(thisVertice);
     ++i; //Incrementa a lista de resposta
   }
