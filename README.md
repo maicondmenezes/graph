@@ -14,16 +14,13 @@ tag:
   - LaTeX
 mathjax: true
 ---
-t1 | t2
---------|------
-![](https://upload.wikimedia.org/wikipedia/commons/4/49/UFPEL-ESCUDO-2013.png){width=200px} | _Universidade Federal de Pelotas - UFPel    
-Centro de Desenvolvimento Tecnológico - CDTec    
+![](https://upload.wikimedia.org/wikipedia/commons/4/49/UFPEL-ESCUDO-2013.png) Universidade Federal de Pelotas - UFPel    
+_Centro de Desenvolvimento Tecnológico - CDTec    
 Engenharia da Computação_
 
 ***
 #### Disciplina: Algoritmos e Estruturas de Dados 2
 #### Projeto: Trabalho 2 - AED II - Grafos & Djsktra
-#### Módulo: README.md
 #### Autor: Maicon de Menezes
 #### Professor: Guilherme
 #### Pelotas, 19 de Outubro de 2020
@@ -40,20 +37,45 @@ Engenharia da Computação_
   Nome         |Tipo                                |Definição                            |Descrição
   :------------|:-----------------------------------:|:-----------------------------------:|-----------
   size         | inteiro curto sem sinal  | $$ {size \in \mathbb{N} \| 0 \| < size <=20 } $$ | Representa a ordem da matrix quadrada (tamanho do grafo) utilizada para representar o grafo, com no máximo 20 vertices como especifica o problema proposto
-  vertice      | matriz de inteiros longos sem sinal | vertice[size, size]  | Matriz de adjacências dos vértices do grafo e suas respectivas arestas com peso ou custo.
+  vertice      | matriz de reais longos sem sinal | vertice[size, size]  | Matriz de adjacências dos vértices do grafo e suas respectivas arestas com peso ou custo.
   status      | vetor de booleanos | status[size]  | Vetor para identificar o status de visita de um vertice do grafo seu estados podem ser (aberto = falso, fechado = verdadeiro)
-  predecessor | vetor de inteiros curtos sem sinal | predecessor[size]  | Vetor que identifica o vertice antecessor do vertice em questão no caminho percorrido
-  estimate    | vetor de inteiros longos sem sinal | estimate[size]  | Vetor que armazena a estimativa de custo do caminho até o vertice em questão
+  predecessor | vetor de inteiros curtos | predecessor[size]  | Vetor que identifica o vertice antecessor do vertice em questão no caminho percorrido
+  estimate    | vetor de reais longos | estimate[size]  | Vetor que armazena a estimativa de custo do caminho até o vertice em questão
   tag         | vetor de cadeias de caracteres | tag[size]  | Vetor para armazenar um rótulo de significado para cada vértice, atributo opcional
 
-### Métodos:    
+## Métodos:   
+### Contrutores e Destrutores
 
-Assinatura | Argumentos | Descrição
-:--------------|:-----------------:|:------
-constructor( size ) | size - inteiro curto | Constroí uma instância de grafo com _**size**_ vertices
-makeEdge(source, destiny, cost) | source - inteiro curto; destiny - inteiro curto; cost - inteiro longo | Cria uma aresta entre o vértice _**source**_ e o vertice _**destiny**_ com o peso _**cost**_
-setStatus(vertice) | vertice - inteiro curto | Alterna entre os status do vertice _**aberto**_(false) e _**fechado**_(true), onde cada chamada troca o valor atual do vertice
-setPredecessor(vertice, predecessor) | vertice - inteiro curto; predecessor - inteiro curto | Altera o _**predecessor**_ do _**vertice**_ em questão
-setEstimate(vertice, estimate) | vertice - inteiro curto; estimate - inteiro longo | Altera a estimativa (_**estimate**_) de custo do caminho até o _**vertice**_ em questão
-setTag(vertice, tag) | vertice - inteiro curto; tag - cadeia de caracteres | Altera a etiqueta de identificação de um vertice
-findWayBetween(source, destiny) | source - inteiro curto; destiny - inteiro curto | Procura pelo menor caminho entre o vertice origem (_**source**_) e o vertice destino (_**destiny**_)
+|   Assinatura   | Argumentos    | Descrição                            | Escopo
+:---------------|:--------------:|:-------------------------------------|:--------:
+  Graph()        | sem argumento | Construtor padrão da classe          | Público
+  Graph(**size**)    | inteiro       | Construtói um grafo com **size** nós | Público
+  ~Graph()       | sem argumento | Destrutor  padrão da classe          | Público
+
+### Modificadores
+
+|   Assinatura   | Argumentos    | Descrição                            | Escopo
+:---------------|:--------------:|:-------------------------------------|:--------:
+  makeEdgeBetween(**source**, **destiny**, **cost**) | inteiro, inteiro, real | cria uma aresta de custo **cost** entre o vértice fonte **source** e o vértice destino **destiny** | Público
+  setStatus(**vertice**) | inteiro | Atualiza o status de visitação de um **vertice** alternando entre **true** e **false** a cada chamada |  Público
+  setPredecessor(**vertice**, **predecessor**) | inteiro, inteiro | Altera o Antecessor **predecessor** do **vertice** |  Público
+  setEstimate(**vertice**, **estimate**) | inteiro, real | Altera a estimativa **estimate** de custo total do caminho até o **vertice** |  Público
+  setTag(**vertice**, **tag**) | inteiro, string | Adiciona um identificador **tag** ao **vertice** |  Público
+
+### Acessores
+
+|Assinatura|Tipo de Retorno|Argumentos|Descrição|Escopo
+:--|:--:|:--:|:--:|:--:
+getStatus(**vertice**)|booleano|inteiro|Retorna o status de visitação de um **vertice**|Público
+getEdgeCost(**source**, **destiny**)|real|inteiro, inteiro|Retorna o custo de uma aresta com inicio no vertice fonte **source** e destino no vertice **destiny**|Público
+getEstimate(**vertice**)|real|inteiro|Retorna a estimativa de custo total do caminho até um **vertice**|Público
+getTag(**vertice**)|string|inteiro|Retorna a identificação **tag** de um **vertice**
+getPredecessor(**vertice**)|inteiro|inteiro|Retorna o antecessor de um **vertice** em um caminho|Público
+getNeighbors(**vertice**)|vetor de inteiros|inteiro|Retorna uma lista com todos vizinhos de um **vertice**
+  
+### Metodos de caminho
+|Assinatura|Tipo de Retorno|Argumentos|Descrição|Escopo
+:--|:--:|:--:|:--:|:--:
+findCloserWayBetween(**source**, **destiny**)|vetor de inteiros|inteiro, inteiro|Retorna uma lista com o menor caminho entre um vertice fonte **source** e seu destino **destiny**
+
+
