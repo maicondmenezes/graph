@@ -4,7 +4,7 @@
 
 int main(){
   Graph grafo(4);
-  vector< vector<int> > caminho;
+  vector<int> caminho;
   grafo.setTag(0, "pelotas");
   grafo.setTag(1, "rio grande");
   grafo.setTag(2, "sao lourenco");
@@ -19,14 +19,15 @@ int main(){
   grafo.makeEdgeBetween(3, 0, 10);
 
   caminho = grafo.findCloserWayBetween(1, 3);
-
-  for(vector<int> linha: caminho){
-    for(int coluna: linha){
-      cout << coluna << " ";
-    }
-    cout << "\n";
-  }
   
+
+ for (std::vector<int>::reverse_iterator it = caminho.rbegin(); it != caminho.rend(); ++it){
+  cout << *it << " ";
+
+}
+ 
+
+
 
   system("pause");
   return 0;

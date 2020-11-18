@@ -20,9 +20,7 @@
 #include <vector>
 
 //Vocabulário 
-#define false  0
 #define opened false
-#define true 1
 #define closed true 
 #define Graph_Size 20
 using namespace std;
@@ -47,6 +45,7 @@ public:
 //Métodos construtores
   Graph();
   Graph( const unsigned short int& );
+  Graph( string );
 //Destrutor
   ~Graph();
 //Modificadores
@@ -67,5 +66,5 @@ public:
   unsigned short int * getNeighbors   ( const unsigned short int& );
   
 //Metodos de caminho
-  vector<vector<int>>findCloserWayBetween(const unsigned short int&, const unsigned short int& );
+  vector<int> findCloserWayBetween(const unsigned short int&, const unsigned short int& );
 };

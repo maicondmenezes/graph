@@ -26,7 +26,7 @@ Graph::Graph(){
 
 }
 Graph::Graph( const unsigned short int& s ){
-  vector<bool>           nStatus(s, false);
+  vector<bool>           nStatus(s, opened);
   vector<string>         nTags(s, "");
   vector<short int>      nPredecessors(s, -1);
   vector<long double>    nEstimates(s, LDBL_MAX);
@@ -151,9 +151,9 @@ void Graph::estimateDistance( const unsigned short int& source, const unsigned s
 
 bool Graph::thereIsOpenedVertice(){
   for(int i = 0; i < size; ++i){
-    if (!status[i]) return true;    
+    if (!status[i]) return closed;    
   }
-  return false;
+  return opened;
 }
 
 unsigned short int Graph::nextOpenedVertice(){
@@ -184,19 +184,16 @@ void Graph::dijikstra(const unsigned int& source){
   }
 }
 
-vector< vector<int> > Graph::findCloserWayBetween(const unsigned short int& source, const unsigned short int& destiny){
+vector<int> Graph::findCloserWayBetween(const unsigned short int& source, const unsigned short int& destiny){
   unsigned short int thisVertice = destiny;
   unsigned short int i = 0;
-  vector<int> nodes(2, 0);
-  vector< vector<int> > way(size, nodes);
+  vector<int> way;
   dijikstra(source);
 //Percorre o caminho do destino até a fonte através 
 //do antecessor do vértice atual
-  while(getPredecessor(thisVertice) != source){
-    way[i][0] = thisVertice;
-    way[i][1] = getPredecessor(thisVertice);
-    thisVertice = getPredecessor(thisVertice);
-    ++i; //Incrementa a lista de resposta
+  do{
+    way.push_back(thisVertice);    
   }
+  while(getPredecessor(thisVertice) != source);
   return way;
 }
