@@ -1,6 +1,8 @@
 #include <iostream>
+#include <iomanip>
+
 #include "graph.h"
-//using namespace std;
+using namespace std;
 
 int main(){
   Graph grafo(4);
@@ -18,17 +20,17 @@ int main(){
   grafo.makeEdgeBetween(2, 0, 8);
   grafo.makeEdgeBetween(3, 0, 10);
 
+  system("clear");
+  grafo.print();
+
   caminho = grafo.findCloserWayBetween(1, 3);
   
 
- for (std::vector<int>::reverse_iterator it = caminho.rbegin(); it != caminho.rend(); ++it){
-  cout << *it << " ";
-
-}
- 
-
-
-
-  system("pause");
+ for(int passo: caminho){
+  cout << setw(5);
+  cout << passo << " ";
+ }
+ cout << endl;
+  getchar();  
   return 0;
 }

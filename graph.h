@@ -55,8 +55,8 @@ public:
   void setEstimate     ( const unsigned short int&, const double& );
   void setTag          ( const unsigned short int&, string );
 //Metodos de IHM
-  void feedGraph  ();
-  void printGraph ();
+  //void feed();
+  void print();
 //Acessores
   bool                 getStatus      ( const unsigned short int& );
   double               getEdgeCost    ( const unsigned short int&, const unsigned short int&);  
@@ -64,6 +64,7 @@ public:
   string               getTag         ( const unsigned short int& );
   unsigned short int   getPredecessor ( const unsigned short int& );
   unsigned short int * getNeighbors   ( const unsigned short int& );
+  
   
 //Metodos de caminho
   vector<int> findCloserWayBetween(const unsigned short int&, const unsigned short int& );

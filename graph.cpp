@@ -15,6 +15,7 @@
 */
 //Bibliotecas
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <vector>
 #include "graph.h"
@@ -113,33 +114,17 @@ string Graph::getTag( const unsigned short int& vertice ){
   return tags[vertice];
 }
 
-//Metodos de IHM 
-void Graph::feedGraph(){
-  cout << "Entrada de Dados para o grafo de " << size << " vertices" << endl;
-  for(int i = 0; i < size; ++i){
-    cout << "\tVertice " << i+1 <<" Identificador (tag):\t";
-    cin >> tags[i] ;
-    cout << "Vizinhos do vertice " << i+1 << ":" << endl;
-    int thisNeighbor = 0;
-    long double thisNeighborCost = 0;
-    while(thisNeighbor != -1){
-      cout << "Digite o indice numérico do vizinho ou '-1' para terminar:\t"<< endl;
-      cin >> thisNeighbor;
-      if(thisNeighbor == -1) break;
-      cout << "Digite o custo da aresta até este vizinho: \t"<< endl;
-      cin >> thisNeighborCost;
-      makeEdgeBetween(i, thisNeighbor, thisNeighborCost);
-    }   
+
+void Graph::print(){
+  for(vector<double> way : vertices) {    
+    for(double step : way){
+      cout << setw(5);
+      cout << step << " ";
+    }
+    cout << "\n";
   }
 }
-/*
-void printGraph (){
-  for(auto const& value: a) {
 
-  }
-
-}
-*/
 //Metodos de caminho
 
 void Graph::estimateDistance( const unsigned short int& source, const unsigned short int& destiny){
@@ -192,8 +177,9 @@ vector<int> Graph::findCloserWayBetween(const unsigned short int& source, const 
 //Percorre o caminho do destino até a fonte através 
 //do antecessor do vértice atual
   do{
-    way.push_back(thisVertice);    
-  }
-  while(getPredecessor(thisVertice) != source);
+    way.insert(way.begin(), thisVertice);    
+    thisVertice = getPredecessor(thisVertice);
+  }while(thisVertice != source);
+  way.insert(way.begin(), source);
   return way;
 }
