@@ -18,9 +18,18 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include <list>
+#include <math.h>  
 #include "graph.h"
 
 using namespace std;
+
+//Estrutura temporárria para armazenar e reorganizar as arestas do grafo
+struct Edge {
+  short int source;
+  short int destiny;  
+  double cost;
+};
 
 //Métodos Construtores
 Graph::Graph(){
@@ -168,6 +177,35 @@ void Graph::dijikstra(const unsigned int& source){
     }
   }
 }
+
+
+//Função para comparar e retornar a menor aresta entre duas comparando seus
+bool Graph::compareEdge (Edge e, Edge f) { return (e.cost < f.cost); }
+
+vector<vector<short int>>  Graph::kruskal(){
+  //Matriz que armazenará a arvore minima que será enviada como retorno da função
+  vector<vector<short int>> minimalTree;
+  //Criando um vetor de arestas para armazenar e reordenar as arestas do grafo
+  Edge edges;
+  int maxAmountOfEdges = pow(size, 2);
+  vector<short int> bagOfEdges(maxAmountOfEdges, edges);
+  Edge thisEdge;
+  //Armazenando as arestas 
+  for(int i = 0; i < size; ++i) {
+    thisEdge.source = i;
+    for(int j = 0; j < size; ++j){
+      thisEdge.destiny = j;
+      thisEdge.cost = getEdgeCost(i, j);
+      bagOfEdges.push_back(thisEdge);
+    }    
+  }
+  sort(bagOfEdges.end(), bagOfEdges.begin(), compareEdge );
+  while(!bagOfEdges.empty()){
+    
+  }
+}
+
+
 
 vector<int> Graph::findCloserWayBetween(const unsigned short int& source, const unsigned short int& destiny){
   unsigned short int thisVertice = destiny;

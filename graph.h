@@ -18,6 +18,7 @@
 #include <string>
 #include <cfloat>
 #include <vector>
+#include <list>
 
 //Vocabulário 
 #define opened false
@@ -35,11 +36,12 @@ private:
   vector<long double>   estimates;
   vector<vector<double>>vertices;
 //Métodos Auxiliares para metodos de caminho
-  void               estimateDistance     (const unsigned short int&, const unsigned short int& );
-  void               dijikstra            (const unsigned int&);
-  bool               thereIsOpenedVertice ();
-  unsigned short int nextOpenedVertice    ();
-  unsigned short int smallestEstimate     ();
+  void                      estimateDistance     (const unsigned short int&, const unsigned short int& );
+  void                      dijikstra            (const unsigned int&);
+  vector<vector<short int>> kruskal();
+  bool                      thereIsOpenedVertice ();
+  unsigned short int        nextOpenedVertice    ();
+  unsigned short int        smallestEstimate     ();
 
 public:
 //Métodos construtores
