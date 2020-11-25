@@ -198,7 +198,7 @@ vector<Edge>  Graph::kruskal(){
   vector<Edge> bagOfEdges;
   Edge thisEdge;
   bagOfEdges = getEdges();
-  sort(bagOfEdges.begin(), bagOfEdges.end(), compareEdge);
+  sort(bagOfEdges.end(), bagOfEdges.begin(), compareEdge);
   //Conjunto que ira controlar os vertices já inseridos na arvore
   set<int> forest;
   //Enquanto o conjunto não possuir o mesmo numero de vertices do grafo continua

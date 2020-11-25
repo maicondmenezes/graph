@@ -49,12 +49,12 @@ private:
   void                      estimateDistance     (const unsigned short int&, const unsigned short int& );
   void                      dijikstra            (const unsigned int&);  
   bool                      thereIsOpenedVertice ();    
-  vector<Edge>              kruskal();
+  
   unsigned short int        nextOpenedVertice    ();
   unsigned short int        smallestEstimate     ();
 
 public:
-
+vector<Edge>              kruskal();
 //Métodos construtores
   Graph();
   Graph( const unsigned short int& );
