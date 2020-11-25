@@ -9,22 +9,32 @@
 *#Módulo: graph.h -  definições da classe
 
 *@author Maicon de Menezes <mdmoliveira@inf.ufpel.edu.br>
-*@orientator Guilherme
+*@co-author Guilherme
 *@date 19/10/2020
 *@link: http://www.facom.ufu.br/~flavio/ed1/files/C++%20ORIENTADO%20A%20OBJETOS.pdf
 */
 //Bibliotecas
-#include <iostream>
-#include <string>
+#include <algorithm>
 #include <cfloat>
+#include <iomanip>
+#include <iostream>
+#include <math.h>  
+#include <set>
+#include <string>
 #include <vector>
-#include <list>
+
 
 //Vocabulário 
 #define opened false
 #define closed true 
 #define Graph_Size 20
 using namespace std;
+//Estrutura temporárria para armazenar e reorganizar as arestas do grafo
+struct Edge {
+  short int source;
+  short int destiny;  
+  double cost;
+};
 
 class Graph{
 private:
@@ -38,8 +48,9 @@ private:
 //Métodos Auxiliares para metodos de caminho
   void                      estimateDistance     (const unsigned short int&, const unsigned short int& );
   void                      dijikstra            (const unsigned int&);
-  vector<vector<short int>> kruskal();
+  //bool                      compareEdge (Edge, Edge);
   bool                      thereIsOpenedVertice ();
+  vector<Edge>              kruskal();
   unsigned short int        nextOpenedVertice    ();
   unsigned short int        smallestEstimate     ();
 

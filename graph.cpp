@@ -14,22 +14,9 @@
 *@link: http://www.facom.ufu.br/~flavio/ed1/files/C++%20ORIENTADO%20A%20OBJETOS.pdf
 */
 //Bibliotecas
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include <vector>
-#include <list>
-#include <math.h>  
 #include "graph.h"
 
 using namespace std;
-
-//Estrutura temporárria para armazenar e reorganizar as arestas do grafo
-struct Edge {
-  short int source;
-  short int destiny;  
-  double cost;
-};
 
 //Métodos Construtores
 Graph::Graph(){
@@ -123,7 +110,6 @@ string Graph::getTag( const unsigned short int& vertice ){
   return tags[vertice];
 }
 
-
 void Graph::print(){
   for(vector<double> way : vertices) {    
     for(double step : way){
@@ -180,17 +166,18 @@ void Graph::dijikstra(const unsigned int& source){
 
 
 //Função para comparar e retornar a menor aresta entre duas comparando seus
-bool Graph::compareEdge (Edge e, Edge f) { return (e.cost < f.cost); }
+bool compareEdge (Edge e, Edge f) { 
+ return (e.cost < f.cost);
+ }
 
-vector<vector<short int>>  Graph::kruskal(){
-  //Matriz que armazenará a arvore minima que será enviada como retorno da função
-  vector<vector<short int>> minimalTree;
-  //Criando um vetor de arestas para armazenar e reordenar as arestas do grafo
-  Edge edges;
-  int maxAmountOfEdges = pow(size, 2);
-  vector<short int> bagOfEdges(maxAmountOfEdges, edges);
+vector<Edge>  Graph::kruskal(){
+  //Vetor que armazenará a arvore minima que será enviada como retorno da função
+  vector<Edge> minimalTree;
+  //Vetor de arestas para armazenar e reordenar as arestas do grafo
+  vector<Edge> bagOfEdges;
   Edge thisEdge;
-  //Armazenando as arestas 
+  //Armazenando as arestas do grafo em uma lista de arestas
+  //mudar para outra função pra deizar o código mais legivel
   for(int i = 0; i < size; ++i) {
     thisEdge.source = i;
     for(int j = 0; j < size; ++j){
@@ -199,13 +186,20 @@ vector<vector<short int>>  Graph::kruskal(){
       bagOfEdges.push_back(thisEdge);
     }    
   }
-  sort(bagOfEdges.end(), bagOfEdges.begin(), compareEdge );
-  while(!bagOfEdges.empty()){
-    
+  //Ordena em ordem crescente as arestas por custo
+  sort(bagOfEdges.begin(), bagOfEdges.end(), compareEdge);
+  //Conjunto que ira controlar os vertices já inseridos na arvore
+  set<int> forest;
+  //Enquanto o conjunto não possuir o mesmo numero de vertices do grafo continua
+  //acrescentando o vertice origem das arestas a lista
+  while( forest.size() < size){
+    thisEdge = bagOfEdges.back();
+    bagOfEdges.pop_back();
+    forest.insert(thisEdge.source);
+    minimalTree.push_back(thisEdge);
   }
+  return minimalTree;
 }
-
-
 
 vector<int> Graph::findCloserWayBetween(const unsigned short int& source, const unsigned short int& destiny){
   unsigned short int thisVertice = destiny;
