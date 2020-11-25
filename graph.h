@@ -47,14 +47,14 @@ private:
   vector<vector<double>>vertices;
 //Métodos Auxiliares para metodos de caminho
   void                      estimateDistance     (const unsigned short int&, const unsigned short int& );
-  void                      dijikstra            (const unsigned int&);
-  //bool                      compareEdge (Edge, Edge);
-  bool                      thereIsOpenedVertice ();
+  void                      dijikstra            (const unsigned int&);  
+  bool                      thereIsOpenedVertice ();    
   vector<Edge>              kruskal();
   unsigned short int        nextOpenedVertice    ();
   unsigned short int        smallestEstimate     ();
 
 public:
+
 //Métodos construtores
   Graph();
   Graph( const unsigned short int& );
@@ -70,6 +70,7 @@ public:
 //Metodos de IHM
   //void feed();
   void print();
+  /* void sortEdges(std::vector<Edge> &, const bool&); */
 //Acessores
   bool                 getStatus      ( const unsigned short int& );
   double               getEdgeCost    ( const unsigned short int&, const unsigned short int&);  
@@ -77,7 +78,7 @@ public:
   string               getTag         ( const unsigned short int& );
   unsigned short int   getPredecessor ( const unsigned short int& );
   unsigned short int * getNeighbors   ( const unsigned short int& );
-  
+  vector<Edge>         getEdges();
   
 //Metodos de caminho
   vector<int> findCloserWayBetween(const unsigned short int&, const unsigned short int& );

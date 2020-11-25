@@ -16,8 +16,6 @@
 //Bibliotecas
 #include "graph.h"
 
-using namespace std;
-
 //Métodos Construtores
 Graph::Graph(){
 
@@ -120,6 +118,20 @@ void Graph::print(){
   }
 }
 
+//Função para comparar e retornar a menor aresta entre duas comparando seus
+static bool compareEdge (Edge e, Edge f) { 
+ return (e.cost < f.cost);
+}
+
+/* void Graph::sortEdges(vector<Edge> bagOfEdges, const bool crescent){
+  if(crescent)
+    //Ordena em ordem crescente as arestas por custo
+    sort(bagOfEdges.begin(), bagOfEdges.end(), compareEdge);
+  //Ordena em ordem crescente as arestas por custo
+  sort(bagOfEdges.end(), bagOfEdges.begin(), compareEdge);
+
+} */
+
 //Metodos de caminho
 
 void Graph::estimateDistance( const unsigned short int& source, const unsigned short int& destiny){
@@ -164,20 +176,11 @@ void Graph::dijikstra(const unsigned int& source){
   }
 }
 
-
-//Função para comparar e retornar a menor aresta entre duas comparando seus
-bool compareEdge (Edge e, Edge f) { 
- return (e.cost < f.cost);
- }
-
-vector<Edge>  Graph::kruskal(){
-  //Vetor que armazenará a arvore minima que será enviada como retorno da função
-  vector<Edge> minimalTree;
-  //Vetor de arestas para armazenar e reordenar as arestas do grafo
+//Função que percorre todo grafo e devolve todas as arestes presentes no mesmo
+//em forma de vetor
+vector<Edge> Graph::getEdges(){
   vector<Edge> bagOfEdges;
   Edge thisEdge;
-  //Armazenando as arestas do grafo em uma lista de arestas
-  //mudar para outra função pra deizar o código mais legivel
   for(int i = 0; i < size; ++i) {
     thisEdge.source = i;
     for(int j = 0; j < size; ++j){
@@ -186,7 +189,15 @@ vector<Edge>  Graph::kruskal(){
       bagOfEdges.push_back(thisEdge);
     }    
   }
-  //Ordena em ordem crescente as arestas por custo
+  return bagOfEdges;
+}
+vector<Edge>  Graph::kruskal(){
+  //Vetor que armazenará a arvore minima que será enviada como retorno da função
+  vector<Edge> minimalTree;
+  //Vetor de arestas para armazenar e reordenar as arestas do grafo
+  vector<Edge> bagOfEdges;
+  Edge thisEdge;
+  bagOfEdges = getEdges();
   sort(bagOfEdges.begin(), bagOfEdges.end(), compareEdge);
   //Conjunto que ira controlar os vertices já inseridos na arvore
   set<int> forest;
