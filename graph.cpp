@@ -141,12 +141,12 @@ static bool compareEdge (Edge e, Edge f) {
 
 //Metodos de caminho
 //Encontra o subconjunto atual do vertice
-short int findSet(short int subset[], short int& vertice){
+short int findSet(vector<short int> subset, short int& vertice){
   if(subset[vertice] == -1) return vertice;
   return findSet(subset, subset[vertice]);
 }
 //Uni 2 subconjuntos
-void joinSets(short int subset[], short int& source, short int& destiny){
+void joinSets(vector<short int> subset, short int& source, short int& destiny){
   short int sourceSet = findSet(subset, source);
   short int destinySet = findSet(subset, destiny);
   subset[sourceSet] = destinySet;
@@ -217,14 +217,22 @@ vector<Edge>  Graph::kruskal(){
   bagOfEdges = getEdges();
   sort(bagOfEdges.end(), bagOfEdges.begin(), compareEdge);
   //Conjunto que ira controlar os vertices já inseridos na arvore
-  set<int> forest;
+  vector<short int> forest (size, -1);
   //Enquanto o conjunto não possuir o mesmo numero de vertices do grafo continua
   //acrescentando o vertice origem das arestas a lista
-  while( forest.size() < size){
+  /* while( forest.size() < size){
     thisEdge = bagOfEdges.back();
     bagOfEdges.pop_back();
     forest.insert(thisEdge.source);
     minimalTree.push_back(thisEdge);
+  } */
+  for(Edge thisEdge: bagOfEdges){
+    short int sourceSet = thisEdge.source;
+    short int destinySet = thisEdge.destiny;
+    if(sourceSet !=  destinySet){
+      minimalTree.push_back(thisEdge);
+      joinSets(forest, sourceSet, destinySet);
+    }
   }
   return minimalTree;
 }
