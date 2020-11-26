@@ -16,6 +16,7 @@
 //Bibliotecas
 #include "graph.h"
 
+using namespace std;
 //Métodos Construtores
 Graph::Graph(){
 
@@ -32,8 +33,7 @@ Graph::Graph( const unsigned short int& s ){
   tags         = nTags;
   predecessors = nPredecessors;
   estimates    = nEstimates;
-  vertices     = nVertices;
-  
+  vertices     = nVertices;  
 }
 //Destrutores
   Graph::~Graph(){
@@ -109,48 +109,35 @@ string Graph::getTag( const unsigned short int& vertice ){
 }
 
 string Graph::toString(){
-  ostringstream streamOut;
+  string streamOut;
   int verticeCounter = 0;
   int neighborsCounter = 0;
   for(vector<double> way : vertices) {
-    streamOut << setw(15) << getTag(verticeCounter) << "(" << verticeCounter << ") | " << endl;              
+    streamOut.append("| "+ getTag(verticeCounter) + "(" +  to_string(verticeCounter) +") | " + "\n");              
     for(double step : way){
-      streamOut << setw(17) << getTag(neighborsCounter) << "(" << verticeCounter << ") | "
-                << setw(17) << step << " | " << endl;
+      streamOut.append("   | "+ getTag(neighborsCounter) + "(" + to_string(neighborsCounter) + ") | "
+                + to_string(step) + " | " + "\n");
       ++neighborsCounter;
     }
     ++verticeCounter;
-    streamOut << endl;
+    streamOut.append("\n");
   }
-  return streamOut.str();
+  return streamOut;
 }
-
-//Função para comparar e retornar a menor aresta entre duas comparando seus
-static bool compareEdge (Edge e, Edge f) { 
- return (e.cost < f.cost);
-}
-
-/* void Graph::sortEdges(vector<Edge> bagOfEdges, const bool crescent){
-  if(crescent)
-    //Ordena em ordem crescente as arestas por custo
-    sort(bagOfEdges.begin(), bagOfEdges.end(), compareEdge);
-  //Ordena em ordem crescente as arestas por custo
-  sort(bagOfEdges.end(), bagOfEdges.begin(), compareEdge);
-
-} */
 
 //Metodos de caminho
 //Encontra o subconjunto atual do vertice
-short int findSet(vector<short int> subset, short int& vertice){
-  if(subset[vertice] == -1) return vertice;
-  return findSet(subset, subset[vertice]);
+short int findSet(vector<short int> subset, short int vertice){
+  if(subset.at(vertice) == -1) return vertice;
+  return findSet(subset, subset.at(vertice));
 }
 //Uni 2 subconjuntos
-void joinSets(vector<short int> subset, short int& source, short int& destiny){
+void joinSets(vector<short int> &subset, short int source, short int destiny){
   short int sourceSet = findSet(subset, source);
   short int destinySet = findSet(subset, destiny);
   subset[sourceSet] = destinySet;
 }
+
 void Graph::estimateDistance( const unsigned short int& source, const unsigned short int& destiny){
   if (estimates[destiny] > estimates[source] + vertices [source][destiny]){
     estimates[destiny] = estimates[source] + vertices [source][destiny];
@@ -196,43 +183,35 @@ void Graph::dijikstra(const unsigned int& source){
 //Função que percorre todo grafo e devolve todas as arestes presentes no mesmo
 //em forma de vetor
 vector<Edge> Graph::getEdges(){
-  vector<Edge> bagOfEdges;
-  Edge thisEdge;
-  for(int i = 0; i < size; ++i) {
-    thisEdge.source = i;
+  vector<Edge> bagOfEdges;  
+  for(int i = 0; i < size; ++i) {    
     for(int j = 0; j < size; ++j){
-      thisEdge.destiny = j;
-      thisEdge.cost = getEdgeCost(i, j);
+      double cost = getEdgeCost(i, j);
+      Edge thisEdge(i, j, cost);
       bagOfEdges.push_back(thisEdge);
     }    
   }
   return bagOfEdges;
 }
+
 vector<Edge>  Graph::kruskal(){
   //Vetor que armazenará a arvore minima que será enviada como retorno da função
   vector<Edge> minimalTree;
   //Vetor de arestas para armazenar e reordenar as arestas do grafo
-  vector<Edge> bagOfEdges;
-  Edge thisEdge;
-  bagOfEdges = getEdges();
-  sort(bagOfEdges.end(), bagOfEdges.begin(), compareEdge);
+  vector<Edge> bagOfEdges = getEdges();
+  sort(bagOfEdges.begin(), bagOfEdges.end());
   //Conjunto que ira controlar os vertices já inseridos na arvore
   vector<short int> forest (size, -1);
-  //Enquanto o conjunto não possuir o mesmo numero de vertices do grafo continua
-  //acrescentando o vertice origem das arestas a lista
-  /* while( forest.size() < size){
-    thisEdge = bagOfEdges.back();
-    bagOfEdges.pop_back();
-    forest.insert(thisEdge.source);
-    minimalTree.push_back(thisEdge);
-  } */
+
   for(Edge thisEdge: bagOfEdges){
-    short int sourceSet = thisEdge.source;
-    short int destinySet = thisEdge.destiny;
-    if(sourceSet !=  destinySet){
-      minimalTree.push_back(thisEdge);
-      joinSets(forest, sourceSet, destinySet);
-    }
+    if(thisEdge.getCost() != 0){
+      short int sourceSet =  findSet(forest, thisEdge.getSource());
+      short int destinySet = findSet(forest, thisEdge.getDestiny());
+      if(sourceSet !=  destinySet){
+        minimalTree.push_back(thisEdge);
+        joinSets(forest, sourceSet, destinySet);
+      }
+    }    
   }
   return minimalTree;
 }

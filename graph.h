@@ -12,9 +12,9 @@
 *@co-author Guilherme
 *@date 19/10/2020
 *@link: http://www.facom.ufu.br/~flavio/ed1/files/C++%20ORIENTADO%20A%20OBJETOS.pdf
+*@link: https://gist.github.com/marcoscastro/38720f71e57e29e5360c
 *@link: https://www.youtube.com/watch?v=T8hhKaCUWSs
 *@link: https://www.youtube.com/watch?v=mudL0b9mRTw
-*@link: https://gist.github.com/marcoscastro/38720f71e57e29e5360c
 *@link: https://www.youtube.com/watch?v=fziFDaQ1S5I
 */
 //Bibliotecas
@@ -27,6 +27,7 @@
 #include <sstream>
 #include <string> 
 #include <vector>
+#include "edge.h"
 
 
 //Vocabulário 
@@ -34,17 +35,11 @@
 #define closed true 
 #define Graph_Size 20
 using namespace std;
-//Estrutura temporárria para armazenar e reorganizar as arestas do grafo
-struct Edge {
-  short int source;
-  short int destiny;  
-  double cost;
-};
 
 class Graph{
 private:
 //Atributos
-  static unsigned short int    size;  
+  unsigned short int    size;  
   vector<bool>          status;
   vector<string>        tags;
   vector<short int>     predecessors;

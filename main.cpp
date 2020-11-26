@@ -4,22 +4,20 @@
 #include "graph.h"
 using namespace std;
 
-static bool compareEdge (Edge e, Edge f) { 
-    return (e.cost < f.cost);
-}
-
 string edgesToString(Graph grafo, const std::vector<Edge> bagOfEdges){
   ostringstream streamOut;
   int edgeCounter = 0;
   for(Edge edge: bagOfEdges){
-    if(grafo.getEdgeCost(edge.source, edge.destiny)!=0){
-      streamOut << setw(4) << grafo.getTag(edge.source)  << "(" << edge.source  << ") | "
-                << setw(4) << grafo.getTag(edge.destiny) << "(" << edge.destiny << ") | "
-                << setw(4) << edge.cost            << " | "
+    if(edge.getCost()!=0){
+      streamOut << setw(4) << grafo.getTag(edge.getSource())  << "(" << edge.getSource()  << ") | "
+                << setw(4) << grafo.getTag(edge.getDestiny()) << "(" << edge.getDestiny() << ") | "
+                << setw(4) << edge.getCost()                  << " | "
                 << endl;
       ++edgeCounter;
     }        
   }
+  streamOut << edgeCounter;
+  return streamOut.str();
 }
 
 int main(){
@@ -64,45 +62,14 @@ int main(){
   grafo.makeEdgeBetween(8, 2, 2);
   grafo.makeEdgeBetween(8, 6, 6);
   grafo.makeEdgeBetween(8, 7, 7);
-  
-  vector<Edge> sacoDeArestas;
-  sacoDeArestas = grafo.getEdges();
-  
   system("clear");
-  int contadorDeArestas = 0;
-  for(Edge aresta: sacoDeArestas){
-    if(grafo.getEdgeCost(aresta.source, aresta.destiny)!=0){
-      cout << setw(4) << grafo.getTag(aresta.source)  << "(" << aresta.source  << ") | "
-         << setw(4) << grafo.getTag(aresta.destiny) << "(" << aresta.destiny << ") | "
-         << setw(4) << aresta.cost    << " Km | "
-         << endl;
-      ++contadorDeArestas;
-    }
-        
-  }
-  cout << contadorDeArestas;
+  vector<Edge> sacoDeArestas = grafo.getEdges();
+  cout << edgesToString(grafo, sacoDeArestas);
+
   getchar();
-  sacoDeArestas = grafo.kruskal();
-   
-  for(Edge aresta: sacoDeArestas){
-    if(grafo.getEdgeCost(aresta.source, aresta.destiny)!=0){
-      cout << setw(4) << grafo.getTag(aresta.source)  << "(" << aresta.source  << ") | "
-         << setw(4) << grafo.getTag(aresta.destiny) << "(" << aresta.destiny << ") | "
-         << setw(4) << aresta.cost    << " Km | "
-         << endl;
-    }    
-  }
-  
-  /* grafo.print();
+  vector<Edge> arvoreMinima = grafo.kruskal();
+  cout << edgesToString(grafo, arvoreMinima);
 
-  caminho = grastatic bool                      compareEdge (Edge, Edge);fo.findCloserWayBetween(1, 3);
-  
-
- for(int passo: caminho){
-  cout << setw(5);
-  cout << passo << " ";
- }
- cout << endl; */
   getchar();  
   system("clear");
   return 0;
