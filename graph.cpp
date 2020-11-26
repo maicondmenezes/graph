@@ -76,7 +76,7 @@ void Graph::setTag(const unsigned short int& vertice, const string tag){
 /* Retorna um vetor com todos vizinhos do vértice em questão */
 unsigned short int * Graph::getNeighbors( const unsigned short int& vertice){
   int iNeighbors = 0;
-  static unsigned short int neighbors[] = {};
+  unsigned short int neighbors[];
   for (int i = 0; i < size; ++i){
     if (vertices[vertice][i] != 0) neighbors[iNeighbors++] = i;
   }
@@ -108,14 +108,21 @@ string Graph::getTag( const unsigned short int& vertice ){
   return tags[vertice];
 }
 
-void Graph::print(){
-  for(vector<double> way : vertices) {    
+string Graph::toString(){
+  ostringstream streamOut;
+  int verticeCounter = 0;
+  int neighborsCounter = 0;
+  for(vector<double> way : vertices) {
+    streamOut << setw(15) << getTag(verticeCounter) << "(" << verticeCounter << ") | " << endl;              
     for(double step : way){
-      cout << setw(5);
-      cout << step << " ";
+      streamOut << setw(17) << getTag(neighborsCounter) << "(" << verticeCounter << ") | "
+                << setw(17) << step << " | " << endl;
+      ++neighborsCounter;
     }
-    cout << "\n";
+    ++verticeCounter;
+    streamOut << endl;
   }
+  return streamOut.str();
 }
 
 //Função para comparar e retornar a menor aresta entre duas comparando seus
@@ -133,7 +140,17 @@ static bool compareEdge (Edge e, Edge f) {
 } */
 
 //Metodos de caminho
-
+//Encontra o subconjunto atual do vertice
+short int findSet(short int subset[], short int& vertice){
+  if(subset[vertice] == -1) return vertice;
+  return findSet(subset, subset[vertice]);
+}
+//Uni 2 subconjuntos
+void joinSets(short int subset[], short int& source, short int& destiny){
+  short int sourceSet = findSet(subset, source);
+  short int destinySet = findSet(subset, destiny);
+  subset[sourceSet] = destinySet;
+}
 void Graph::estimateDistance( const unsigned short int& source, const unsigned short int& destiny){
   if (estimates[destiny] > estimates[source] + vertices [source][destiny]){
     estimates[destiny] = estimates[source] + vertices [source][destiny];

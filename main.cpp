@@ -8,6 +8,20 @@ static bool compareEdge (Edge e, Edge f) {
     return (e.cost < f.cost);
 }
 
+string edgesToString(Graph grafo, const std::vector<Edge> bagOfEdges){
+  ostringstream streamOut;
+  int edgeCounter = 0;
+  for(Edge edge: bagOfEdges){
+    if(grafo.getEdgeCost(edge.source, edge.destiny)!=0){
+      streamOut << setw(4) << grafo.getTag(edge.source)  << "(" << edge.source  << ") | "
+                << setw(4) << grafo.getTag(edge.destiny) << "(" << edge.destiny << ") | "
+                << setw(4) << edge.cost            << " | "
+                << endl;
+      ++edgeCounter;
+    }        
+  }
+}
+
 int main(){
   Graph grafo(9);
   vector<int> caminho;

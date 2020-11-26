@@ -12,6 +12,9 @@
 *@co-author Guilherme
 *@date 19/10/2020
 *@link: http://www.facom.ufu.br/~flavio/ed1/files/C++%20ORIENTADO%20A%20OBJETOS.pdf
+*@link: https://www.youtube.com/watch?v=T8hhKaCUWSs
+*@link: https://www.youtube.com/watch?v=mudL0b9mRTw
+*@link: https://gist.github.com/marcoscastro/38720f71e57e29e5360c
 */
 //Bibliotecas
 #include <algorithm>
@@ -20,7 +23,8 @@
 #include <iostream>
 #include <math.h>  
 #include <set>
-#include <string>
+#include <sstream>
+#include <string> 
 #include <vector>
 
 
@@ -39,20 +43,21 @@ struct Edge {
 class Graph{
 private:
 //Atributos
-  unsigned short int    size;  
+  static unsigned short int    size;  
   vector<bool>          status;
   vector<string>        tags;
   vector<short int>     predecessors;
   vector<long double>   estimates;
   vector<vector<double>>vertices;
 //Métodos Auxiliares para metodos de caminho
-  void                      estimateDistance     (const unsigned short int&, const unsigned short int& );
-  void                      dijikstra            (const unsigned int&);  
-  bool                      thereIsOpenedVertice ();    
+  void               estimateDistance     (const unsigned short int&, const unsigned short int& );
+  void               dijikstra            (const unsigned int&);  
+  //void               joinSets(const short int, const unsigned short int&, const unsigned short int&);
+  bool               thereIsOpenedVertice ();    
+  unsigned short int nextOpenedVertice    ();
+  unsigned short int smallestEstimate     ();
+  //short int findSet(const short int , const unsigned short int&); 
   
-  unsigned short int        nextOpenedVertice    ();
-  unsigned short int        smallestEstimate     ();
-
 public:
 vector<Edge>              kruskal();
 //Métodos construtores
@@ -69,7 +74,7 @@ vector<Edge>              kruskal();
   void setTag          ( const unsigned short int&, string );
 //Metodos de IHM
   //void feed();
-  void print();
+  
   /* void sortEdges(std::vector<Edge> &, const bool&); */
 //Acessores
   bool                 getStatus      ( const unsigned short int& );
@@ -79,7 +84,7 @@ vector<Edge>              kruskal();
   unsigned short int   getPredecessor ( const unsigned short int& );
   unsigned short int * getNeighbors   ( const unsigned short int& );
   vector<Edge>         getEdges();
-  
+  string               toString();
 //Metodos de caminho
   vector<int> findCloserWayBetween(const unsigned short int&, const unsigned short int& );
 };
