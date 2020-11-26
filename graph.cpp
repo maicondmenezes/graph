@@ -74,11 +74,11 @@ void Graph::setTag(const unsigned short int& vertice, const string tag){
 //Acessores
 
 /* Retorna um vetor com todos vizinhos do vértice em questão */
-unsigned short int * Graph::getNeighbors( const unsigned short int& vertice){
+vector <unsigned short int> Graph::getNeighbors( const unsigned short int& vertice){
   int iNeighbors = 0;
-  unsigned short int neighbors[];
+  vector <unsigned short int> neighbors;
   for (int i = 0; i < size; ++i){
-    if (vertices[vertice][i] != 0) neighbors[iNeighbors++] = i;
+    if (vertices[vertice][i] != 0) neighbors.push_back(i);
   }
   return neighbors;
 }

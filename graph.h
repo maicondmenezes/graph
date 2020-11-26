@@ -82,7 +82,7 @@ vector<Edge>              kruskal();
   double               getEstimate    ( const unsigned short int& );
   string               getTag         ( const unsigned short int& );
   unsigned short int   getPredecessor ( const unsigned short int& );
-  unsigned short int * getNeighbors   ( const unsigned short int& );
+  vector <unsigned short int> getNeighbors   ( const unsigned short int& );
   vector<Edge>         getEdges();
   string               toString();
 //Metodos de caminho
